@@ -8,6 +8,7 @@
         <option value="$PROJECT_DIR$/springboot-servicio-zuul-server/pom.xml" />
         <option value="$PROJECT_DIR$/springboot-servicio-eureka-server/pom.xml" />
         <option value="$PROJECT_DIR$/springboot-servicio-gateway-server/pom.xml" />
+        <option value="$PROJECT_DIR$/springboot-servicio-config-server/pom.xml" />
       </list>
     </option>
   </component>
