@@ -9,6 +9,9 @@
         <option value="$PROJECT_DIR$/springboot-servicio-eureka-server/pom.xml" />
         <option value="$PROJECT_DIR$/springboot-servicio-gateway-server/pom.xml" />
         <option value="$PROJECT_DIR$/springboot-servicio-config-server/pom.xml" />
+        <option value="$PROJECT_DIR$/springboot-servicio-commons/pom.xml" />
+        <option value="$PROJECT_DIR$/springboot-servicio-usuarios/pom.xml" />
+        <option value="$PROJECT_DIR$/springboot-servicio-oauth/pom.xml" />
       </list>
     </option>
   </component>
