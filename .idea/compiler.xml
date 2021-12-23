@@ -25,7 +25,7 @@
       <module name="springboot-servicio-gateway-server" target="11" />
       <module name="springboot-servicio-item" target="11" />
       <module name="springboot-servicio-oauth" target="11" />
-      <module name="springboot-servicio-productos" target="17" />
+      <module name="springboot-servicio-productos" target="11" />
       <module name="springboot-servicio-usuarios" target="11" />
       <module name="springboot-servicio-zuul-server" target="11" />
     </bytecodeTargetLevel>
