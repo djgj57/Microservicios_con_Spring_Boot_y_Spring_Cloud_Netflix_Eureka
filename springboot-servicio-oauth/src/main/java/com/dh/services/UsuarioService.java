@@ -1,5 +1,6 @@
 package com.dh.services;
 
+import brave.Tracer;
 import com.dh.clients.UsuarioFeignClient;
 import com.dh.models.entity.Usuario;
 import feign.FeignException;
@@ -24,6 +25,10 @@ public class UsuarioService implements IUsuarioService, UserDetailsService {
     @Autowired
     private UsuarioFeignClient client;
 
+
+    @Autowired
+    private Tracer tracer;
+
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
         try {
@@ -41,7 +46,9 @@ public class UsuarioService implements IUsuarioService, UserDetailsService {
                     true, true, authorities);
 
         } catch (FeignException e) {
-            log.info("Usuario no encontrado: " + username);
+            log.error("Usuario no encontrado: " + username);
+            tracer.currentSpan().tag("error.mensaje", "Usuario no encontrado: " + username);
+
             throw new UsernameNotFoundException("Usuario: '" + username + "' no existe");
         }
     }

@@ -1,5 +1,6 @@
 package com.dh.security.event;
 
+import brave.Tracer;
 import com.dh.models.entity.Usuario;
 import com.dh.services.IUsuarioService;
 import feign.FeignException;
@@ -19,6 +20,8 @@ public class AuthenticationSuccessErrorHandler implements AuthenticationEventPub
     @Autowired
     private IUsuarioService usuarioService;
 
+    @Autowired
+    private Tracer tracer;
 
     @Override
     public void publishAuthenticationSuccess(Authentication authentication) {
@@ -52,6 +55,10 @@ public class AuthenticationSuccessErrorHandler implements AuthenticationEventPub
         log.error(mensaje);
 
         try {
+
+            StringBuilder errors = new StringBuilder();
+            errors.append(mensaje);
+
             Usuario usuario = usuarioService.findByUsername(authentication.getName());
             if (usuario.getIntentos() == null) {
                 usuario.setIntentos(0);
@@ -61,13 +68,19 @@ public class AuthenticationSuccessErrorHandler implements AuthenticationEventPub
             usuario.setIntentos(usuario.getIntentos() + 1);
             log.info("Intentos despues es de: " + usuario.getIntentos());
 
+            errors.append(" - " + "Intentos del login: " + usuario.getIntentos());
+
             if (usuario.getIntentos() >= 3) {
                 log.error(String.format("El usuario %s des-habilitado por maximo intentos",
                         authentication.getName()));
+                errors.append(" - " + "El usuario " + authentication.getName() + " des-habilitado" +
+                        " por maximo intentos");
                 usuario.setEnabled(false);
             }
 
             usuarioService.update(usuario, usuario.getId());
+
+            tracer.currentSpan().tag("error.mensaje", errors.toString());
 
         } catch (FeignException ex) {
             log.error(String.format("Error al buscar el usuario %s", authentication.getName()));
